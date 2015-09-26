@@ -23,15 +23,19 @@ http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartpho
 
 and perform various data cleaning activities.
 
-This script creats three variables:
+Contained within this repository are the following:
 
-    1) fullData - The combined full training and test data sets.
+1) UCI HAR Dataset.zip - The data set as downloadable from the UCI website.
 
-    2) selectedData - A subset of fullData containing attributes that are
-        related the mean and standard deviation.
+2) UCI HAR Dataset (directory) - The extracted data set.
 
-    3) reducedData - A subset of selectedData containing the mean of each
-        individual attribute as grouped by subject and activity.
+3) code_book.txt - A text file describing the data set and transformations performed.
+
+4) reducedData.txt - The output text file of the final reduced data set.
+
+5) run_analysis.R - The R script that performs and describes all actions taken.
+
+6) README.md - This mark down file.
 
 ### Tasks
 The task for this assignment contains multiple parts:
