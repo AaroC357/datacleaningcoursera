@@ -1,0 +1,74 @@
+This code book is for the course project for the Data Cleaning Course on Coursera.
+
+Data Description:
+
+The data set for this project is the "Human Activity Recognition Using
+Smartphones Data Set," located on the UCI Machine Learning Repository at:
+
+http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones
+
+The data set contains the following files:
+
+1) 'README.txt'
+2) 'features_info.txt': Shows information about the variables used on the feature vector.
+3) 'features.txt': List of all features.
+4) 'activity_labels.txt': Links the class labels with their activity name.
+5) 'train/X_train.txt': Training set.
+6) 'train/y_train.txt': Training labels.
+7) 'test/X_test.txt': Test set.
+8) 'test/y_test.txt': Test labels.
+9) 'train/subject_train.txt': Each row identifies the subject who performed the activity for each      window sample. Its range is from 1 to 30. 
+10) 'train/Inertial Signals/total_acc_x_train.txt': The acceleration signal from the smartphone        accelerometer X axis in standard gravity units 'g'. Every row shows a 128 element vector. The      same description applies for the 'total_acc_x_train.txt' and 'total_acc_z_train.txt' files for     the Y and Z axis. 
+11) 'train/Inertial Signals/body_acc_x_train.txt': The body acceleration signal obtained by            subtracting the gravity from the total acceleration. 
+12) 'train/Inertial Signals/body_gyro_x_train.txt': The angular velocity vector measured by the        gyroscope for each window sample. The units are radians/second. 
+
+This project does not utilize the raw data contained in the 'Inertial Signals' folders.
+It only uses the data contained with the features.txt, subject_test.txt, X_test.txt, y_test.txt, 
+subject_train.txt, X_train.txt, and y_train.txt.
+
+Data Transformation:
+
+The primary tools for data import and transformation are found in the R packages
+'dplyr' and 'tidyr.'  Each file utilized was imported with a read.table function
+and transformed into a data frame with tbl_df.
+
+In order to obtain descriptive and unique variable names information was extracted
+from features.txt.  This file contains descriptive names for each variable however,
+there are invalid characters and repeated names.  Therefore this header information
+was transformed using make.names with the unique flag set to TRUE.  This created
+the header that was then used later to apply to the test data set and training
+data set.
+
+Data containing information on the subject and activity for the raw data is contained
+in separate files and therefore needed to be read in and combined with the respective
+test and training data sets.  The data containing information on the activity for the
+raw data is in a numerical format and thus not descriptive.  In order to transform
+this data each activity was located using the 'which' function and then using
+those indicies, a descriptive label was applied.  The following shows the relationship
+between these values:
+
+    1 == WALKING
+    2 == WALKING_UPSTAIRS
+    3 == WALKING_DOWNSTAIRS
+    4 == SITTING
+    5 == STANDING
+    6 == LAYING
+    
+Once the subject and activity column vectors were prepared, they were then combined
+with their respective training and test data sets using 'bind_cols.'  Finally, in 
+order to make the complete data set, the training and test sets were combined
+using 'full_join.'
+
+With the full data set combined and tidy, creation of the directed subsets could be
+accomplished.  First a subset was created which contained the subject, activity, 
+and any variable that related to a mean or standard deviation value, in total this
+consisted of 10,299 observations on 88 variables.  This subsetting was accomplished
+using the 'select' function.
+
+Lastly the reduced data set was formed.  The goal was to take the average of each
+variable grouped by the subject and activity being performed.  This was performed
+using a combination of the 'group_by' and 'summarise_each' functions.  This resulted
+in a data set containing 180 observations on 88 variables.
+
+The R script performing these operations returns the reduced data set as well as
+writes the data set to 'reducedData.txt.'
